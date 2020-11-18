@@ -47,7 +47,6 @@ constraint
 constraint
   alldifferent(final_pos);
 
-
 solve maximize satisfies;
 
 output [

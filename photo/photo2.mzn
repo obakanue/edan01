@@ -23,6 +23,8 @@ array[1..n] of var 1..n: final_pos;
 var 0..n_prefs: satisfies;
 % Array for saving satisifed preferences
 array[1..n_prefs] of var bool: satisfies_array;
+array[1..n_prefs] of var int: distance_array;
+var 0..n: max_distance;
 
 % Non-negativity constraint
 constraint 
@@ -38,6 +40,18 @@ constraint
     } in
     satisfies_array[i] = (abs(final_pos[person]-final_pos[prefered_neighbour]) == 1)
   );
+  
+constraint
+  forall (i in 1..n_prefs) (
+    let {
+      int: person = prefs[i,1],
+      int: prefered_neighbour = prefs[i,2]
+    } in
+    distance_array[i] = abs(final_pos[person]-final_pos[prefered_neighbour])
+  );
+  
+constraint
+   max(distance_array) = max_distance;
 
 % Variable 'satisfies' has to be the same as the sum of all true values in 'satifies_array' 
 constraint
@@ -47,9 +61,10 @@ constraint
 constraint
   alldifferent(final_pos);
 
-solve maximize satisfies;
+solve minimize max_distance;
 
 output [
     "pos = ", show(final_pos), "\n",
-    "satisifes = ", show(satisfies), "\n"
+    "satisifes = ", show(satisfies), "\n",
+    "max distance = ", show(max_distance), "\n"
 ];
