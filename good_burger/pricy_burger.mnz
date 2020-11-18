@@ -1,0 +1,6 @@
+% These constants represent the index in the arrays for each ingredient.
+% example sodium[beef] is the amount of sodium in one unit of beef.
+% int: beef;
+int: beef;
+int: bun;
+int: 
